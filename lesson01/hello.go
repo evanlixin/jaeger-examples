@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/opentracing/opentracing-go"
 	"os"
 
 	"github.com/evanlixin/jaeger-examples/pkg/tracing"
