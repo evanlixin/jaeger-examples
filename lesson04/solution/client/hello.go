@@ -18,7 +18,7 @@ func main() {
 		panic("ERROR: Expecting two arguments")
 	}
 
-	tracer, closer := tracing.Init("hello-world")
+	tracer, closer := tracing.Init("hello-world-4")
 	defer closer.Close()
 	opentracing.SetGlobalTracer(tracer)
 

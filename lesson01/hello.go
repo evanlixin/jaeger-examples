@@ -19,7 +19,7 @@ func main() {
 	 */
 	// tracer := opentracing.GlobalTracer()
 
-	tracer, closer := tracing.Init("hello-world")
+	tracer, closer := tracing.Init("hello-world-1")
 	defer closer.Close()
 
 	helloTo := os.Args[1]
