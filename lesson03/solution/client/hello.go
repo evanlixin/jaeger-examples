@@ -24,7 +24,7 @@ func main() {
 
 	helloTo := os.Args[1]
 
-	span := tracer.StartSpan("say-hello")
+	span := opentracing.GlobalTracer().StartSpan("say-hello")
 	span.SetTag("hello-to", helloTo)
 	defer span.Finish()
 
@@ -86,6 +86,7 @@ func printHello(ctx context.Context, helloStr string) {
 	ext.SpanKindRPCClient.Set(span)
 	ext.HTTPUrl.Set(span, url)
 	ext.HTTPMethod.Set(span, "GET")
+
 	span.Tracer().Inject(span.Context(), opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(req.Header))
 
 	if _, err := xhttp.Do(req); err != nil {

@@ -21,7 +21,8 @@ func main() {
 
 	helloTo := os.Args[1]
 
-	span := tracer.StartSpan("say-hello")
+	//span := tracer.StartSpan("say-hello")
+	span := opentracing.StartSpan("say-hello")
 	span.SetTag("hello-to", helloTo)
 	defer span.Finish()
 

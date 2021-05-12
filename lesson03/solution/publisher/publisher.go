@@ -12,14 +12,15 @@ import (
 func main() {
 	tracer, closer := tracing.Init("publisher")
 	defer closer.Close()
+	opentracing.SetGlobalTracer(tracer)
 
 	http.HandleFunc("/publish", func(w http.ResponseWriter, r *http.Request) {
-		spanCtx, err := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
+		spanCtx, err := opentracing.GlobalTracer().Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error"))
 		}
-		span := tracer.StartSpan("publish", ext.RPCServerOption(spanCtx))
+		span := opentracing.GlobalTracer().StartSpan("publish", ext.RPCServerOption(spanCtx))
 		defer span.Finish()
 
 		helloStr := r.FormValue("helloStr")

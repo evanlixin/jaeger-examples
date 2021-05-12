@@ -14,10 +14,11 @@ import (
 func main() {
 	tracer, closer := tracing.Init("formatter")
 	defer closer.Close()
+	opentracing.SetGlobalTracer(tracer)
 
 	http.HandleFunc("/format", func(w http.ResponseWriter, r *http.Request) {
-		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
-		span := tracer.StartSpan("format", ext.RPCServerOption(spanCtx))
+		spanCtx, _ := opentracing.GlobalTracer().Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
+		span := opentracing.GlobalTracer().StartSpan("format", ext.RPCServerOption(spanCtx))
 		defer span.Finish()
 
 		greeting := span.BaggageItem("greeting")
