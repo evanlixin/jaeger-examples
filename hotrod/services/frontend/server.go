@@ -16,7 +16,6 @@
 package frontend
 
 import (
-	"embed"
 	"encoding/json"
 	"net/http"
 	"path"
@@ -24,6 +23,7 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 
+	"github.com/evanlixin/jaeger-examples/hotrod/pkg/golang/embed"
 	"github.com/evanlixin/jaeger-examples/hotrod/pkg/httperr"
 	"github.com/evanlixin/jaeger-examples/hotrod/pkg/log"
 	"github.com/evanlixin/jaeger-examples/hotrod/pkg/tracing"
