@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/opentracing/opentracing-go"
 	"os"
 
 	"github.com/evanlixin/jaeger-examples/pkg/tracing"
@@ -21,10 +22,11 @@ func main() {
 
 	tracer, closer := tracing.Init("hello-world-1")
 	defer closer.Close()
+	opentracing.SetGlobalTracer(tracer)
 
 	helloTo := os.Args[1]
 
-	span := tracer.StartSpan("say-hello")
+	span := opentracing.GlobalTracer().StartSpan("say-hello")
 	span.SetTag("hello-to", helloTo)
 
 	helloStr := fmt.Sprintf("Hello, %s!", helloTo)
