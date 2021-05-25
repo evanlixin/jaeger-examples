@@ -17,6 +17,7 @@ func main() {
 	opentracing.SetGlobalTracer(tracer)
 
 	http.HandleFunc("/format", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("%v\n", r.Header)
 		spanCtx, _ := opentracing.GlobalTracer().Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
 		span := opentracing.GlobalTracer().StartSpan("format", ext.RPCServerOption(spanCtx))
 		defer span.Finish()
