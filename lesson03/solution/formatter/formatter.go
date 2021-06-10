@@ -17,6 +17,7 @@ func main() {
 	opentracing.SetGlobalTracer(tracer)
 
 	http.HandleFunc("/format", func(w http.ResponseWriter, r *http.Request) {
+		// map[Accept-Encoding:[gzip] Uber-Trace-Id:[218e63028becb349:7199bb351a797c0c:218e63028becb349:1] User-Agent:[Go-http-client/1.1]]
 		fmt.Printf("%v\n", r.Header)
 		spanCtx, _ := opentracing.GlobalTracer().Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
 		span := opentracing.GlobalTracer().StartSpan("format", ext.RPCServerOption(spanCtx))
